@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    image: ${DOCKER_REGISTRY-}webapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      cassandra-init-database:
+        condition: service_completed_successfully
+    ports:
+        - "8080:8080"
+
+  redis-cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - cache:/data
+      
+  cassandra:
+      image: cassandra:3.11.2
+      container_name: cassandra
+      ports:
+        - "9042:9042"
+      environment:
+        - "MAX_HEAP_SIZE=256M"
+        - "HEAP_NEWSIZE=128M"
+      restart: always
+      healthcheck:
+        test: ["CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces"]
+        interval: 15s
+        timeout: 10s
+        retries: 10
+
+  cassandra-init-database:
+      container_name: cassandra-init-database
+      image: cassandra:3.11.2
+      depends_on:
+        cassandra:
+          condition: service_healthy
+      volumes:
+        - ./docker/init-database.cql:/init-database.cql
+      command: /bin/bash -c "echo loading cassandra initial config && cqlsh cassandra -f /init-database.cql"
+      
+volumes:
+  cache:
+    driver: local
