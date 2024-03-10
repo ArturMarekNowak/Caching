@@ -3,38 +3,94 @@ package repositories
 import (
 	"caching/models"
 	"github.com/gocql/gocql"
+	"github.com/scylladb/gocqlx/v2"
+	"github.com/scylladb/gocqlx/v2/qb"
 	"log"
+	"os"
 )
 
-func GetUser(id int) models.User {
+func CreateUser(createUser models.CreateUser) gocql.UUID {
 
-	var c = gocql.NewCluster("host.docker.internal:9042")
-	session, err := gocql.NewSession(*c)
-	if err != nil {
-		log.Fatal("unable to connect to cassandra")
-	}
-	defer session.Close()
-
-	q := session.Query("SELECT name, surname, email FROM public.users WHERE Id = ?", id)
-
-	var name, surname, email string
+	var session = CreateSession()
+	uuid, _ := gocql.RandomUUID()
+	stmt, names := qb.Insert("public.users").Columns("Id", "Name", "Surname", "Email").ToCql()
+	q := session.Query(stmt, names).BindMap(qb.M{
+		"Id":      gocql.UUID.String(uuid),
+		"Name":    createUser.Name,
+		"Surname": createUser.Surname,
+		"Email":   createUser.Email,
+	})
 
 	it := q.Iter()
 	defer func() {
 		if err := it.Close(); err != nil {
-			log.Printf("select public.users", err)
+			log.Printf("insert public.users", err)
 		}
 	}()
 
-	for it.Scan(&name, &surname, &email) {
-		log.Printf("\t" + name + " " + surname + ", " + email)
-	}
+	return uuid
+}
+
+func GetUser(id gocql.UUID) (*models.User, error) {
+
+	var session = CreateSession()
+	defer session.Close()
+	stmt, names := qb.Select("public.users").Where(qb.Eq("Id")).ToCql()
+	q := session.Query(stmt, names).BindMap(qb.M{
+		"Id": gocql.UUID.String(id),
+	})
 
 	var user models.User
+	if err := q.GetRelease(&user); err != nil {
+		log.Printf("select public.users", err)
+		return nil, err
+	}
 
-	user.Name = name
-	user.Surname = surname
-	user.Email = email
+	return &user, nil
+}
 
-	return user
+func UpdateUser(id gocql.UUID, createUser models.CreateUser) (*models.User, error) {
+
+	if _, err := GetUser(id); err != nil {
+		log.Printf("select public.users", err)
+		return nil, err
+	}
+
+	var session = CreateSession()
+	defer session.Close()
+	stmt, names := qb.Update("public.users").Set("Name", "Surname", "Email").Where(qb.Eq("Id")).ToCql()
+	session.Query(stmt, names).BindMap(qb.M{
+		"Name":    createUser.Name,
+		"Surname": createUser.Surname,
+		"Email":   createUser.Email,
+		"Id":      gocql.UUID.String(id),
+	}).Exec()
+
+	return &models.User{Id: id, Name: createUser.Name, Surname: createUser.Surname, Email: createUser.Email}, nil
+}
+
+func DeleteUser(id gocql.UUID) error {
+
+	if _, err := GetUser(id); err != nil {
+		log.Printf("delete public.users", err)
+		return err
+	}
+
+	var session = CreateSession()
+	defer session.Close()
+	stmt, names := qb.Delete("public.users").Where(qb.Eq("Id")).ToCql()
+	session.Query(stmt, names).BindMap(qb.M{
+		"Id": gocql.UUID.String(id),
+	}).Exec()
+
+	return nil
+}
+
+func CreateSession() gocqlx.Session {
+	var cluster = gocql.NewCluster(os.Getenv("CONNECTION_STRING"))
+	session, err := gocqlx.WrapSession(cluster.CreateSession())
+	if err != nil {
+		log.Printf("unable to connect to cassandra", err)
+	}
+	return session
 }
