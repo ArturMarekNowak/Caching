@@ -9,8 +9,10 @@ services:
     depends_on:
       cassandra-init-database:
         condition: service_completed_successfully
+    environment:
+      - CONNECTION_STRING=host.docker.internal:9042
     ports:
-        - "8080:8080"
+      - "8080:8080"
 
   redis-cache:
     image: redis:6.2-alpine
