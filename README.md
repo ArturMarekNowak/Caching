@@ -16,8 +16,8 @@ This project is a simple CRUD build in Go with GET requests responses cached in 
 
 Project consists of four containers:
 
-<p ><img src="./docs/network.drawio.png" alt=""/>
-<p >Pic.1 Visualization of project run with docker compose </p>
+<p align="center"><img src="./docs/network.drawio.png" alt=""/>
+<p align="center">Pic.1 Visualization of project run with docker compose </p>
 
 
 ## Technologies
