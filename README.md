@@ -1,5 +1,8 @@
 # Caching
 
+[![Build](https://github.com/ArturMarekNowak/Caching/actions/workflows/workflow.yml/badge.svg)](https://github.com/ArturMarekNowak/Caching/actions/workflows/workflow.yml/badge.svg) [![Trivy and dockler](https://github.com/ArturMarekNowak/Caching/actions/workflows/image-scan.yml/badge.svg)](https://github.com/ArturMarekNowak/Caching/actions/workflows/image-scan.yml/badge.svg) [![CodeFactor](https://www.codefactor.io/repository/github/arturmareknowak/caching/badge)](https://www.codefactor.io/repository/github/arturmareknowak/caching)
+
+
 This project is a simple CRUD build in Go with GET requests responses cached in redis
 
 ## Table of contents
@@ -13,7 +16,7 @@ This project is a simple CRUD build in Go with GET requests responses cached in 
 
 Project consists of four containers:
 
-<p align="center"><img src="./docs/network.drawio.png"/>
+<p align="center"><img src="./docs/network.drawio.png" alt=""/>
 <p align="center">Pic.1 Visualization of docker compose project</p>
 
 
