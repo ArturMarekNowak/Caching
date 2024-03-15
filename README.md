@@ -1,4 +1,4 @@
-# CachingMiddleware
+# Caching
 
 This project is a simple CRUD build in Go with GET requests responses cached in redis
 
