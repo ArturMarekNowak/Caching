@@ -4,9 +4,9 @@ import (
 	"caching/helpers"
 	"caching/models"
 	"caching/services"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gocql/gocql"
+	"log"
 	"net/http"
 )
 
@@ -25,7 +25,7 @@ func GetUser(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("Cache miss")
+	log.Print("Cache miss")
 
 	user, err := services.GetUser(id)
 	if err != nil {
@@ -36,7 +36,7 @@ func GetUser(c *gin.Context) {
 
 	err = helpers.SetKey(id.String(), user)
 	if err != nil {
-		fmt.Println("Could save key %s", id)
+		log.Print("Could save key %s", id)
 	}
 }
 
@@ -55,7 +55,7 @@ func CreateUser(c *gin.Context) {
 		Surname: createUser.Surname,
 		Email:   createUser.Email})
 	if err != nil {
-		fmt.Println("Couldn't save key %s", id)
+		log.Print("Couldn't save key %s", id)
 	}
 }
 
@@ -78,7 +78,7 @@ func UpdateUser(c *gin.Context) {
 
 	err = helpers.SetKey(id.String(), user)
 	if err != nil {
-		fmt.Println("Couldn't save key %s", id)
+		log.Print("Couldn't save key %s", id)
 	}
 }
 
@@ -96,6 +96,6 @@ func DeleteUser(c *gin.Context) {
 
 	err = helpers.DelKey(id.String())
 	if err != nil {
-		fmt.Println("Couldn't del key %s", id)
+		log.Print("Couldn't del key %s", id)
 	}
 }
