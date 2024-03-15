@@ -47,8 +47,8 @@ services:
         cassandra:
           condition: service_healthy
       volumes:
-        - ./docker/init-database.cql:/init-database.cql
-      command: /bin/bash -c "echo loading cassandra initial config && cqlsh cassandra -f /init-database.cql"
+        - ./docker/init-database.cql:/docker/init-database.cql
+      command: /bin/bash -c "echo loading cassandra initial config && cqlsh cassandra -f /docker/init-database.cql"
       
 volumes:
   cache:

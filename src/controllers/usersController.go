@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"caching/helpers"
-	"caching/models"
-	"caching/services"
+	"caching/src/helpers"
+	"caching/src/models"
+	"caching/src/services"
 	"github.com/gin-gonic/gin"
 	"github.com/gocql/gocql"
 	"log"
