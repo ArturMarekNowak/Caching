@@ -1,8 +1,8 @@
 package services
 
 import (
-	"caching/models"
-	"caching/repositories"
+	models "caching/src/models"
+	"caching/src/repositories"
 	"github.com/gocql/gocql"
 )
 

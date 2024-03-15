@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"caching/helpers"
-	"caching/models"
-	"caching/services"
-	"fmt"
+	"caching/src/helpers"
+	"caching/src/models"
+	"caching/src/services"
 	"github.com/gin-gonic/gin"
 	"github.com/gocql/gocql"
+	"log"
 	"net/http"
 )
 
@@ -17,26 +17,26 @@ func GetUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
 	}
 
-	var user models.User
-	err = helpers.GetKey(id.String(), &user)
+	var cachedUser models.User
+	err = helpers.GetKey(id.String(), &cachedUser)
 	if err == nil {
-		c.JSON(http.StatusOK, user)
-		fmt.Println("Cache hit")
+		c.JSON(http.StatusOK, cachedUser)
+		log.Print("Cache hit")
 		return
 	}
 
-	fmt.Println("Cache miss")
+	log.Print("Cache miss")
 
-	user1, err := services.GetUser(id)
+	user, err := services.GetUser(id)
 	if err != nil {
 
 		c.JSON(http.StatusNotFound, gin.H{"message": "user not found"})
 	}
-	c.JSON(http.StatusOK, user1)
+	c.JSON(http.StatusOK, user)
 
-	err = helpers.SetKey(id.String(), user1)
+	err = helpers.SetKey(id.String(), user)
 	if err != nil {
-		fmt.Println("Could save key %s", id)
+		log.Print("Could save key %s", id)
 	}
 }
 
@@ -47,7 +47,7 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
 	}
 	id := services.CreateUser(createUser)
-	c.JSON(http.StatusCreated, id)
+	c.JSON(http.StatusCreated, models.UserCreated{Id: id})
 
 	err = helpers.SetKey(id.String(), models.User{
 		Id:      id,
@@ -55,7 +55,7 @@ func CreateUser(c *gin.Context) {
 		Surname: createUser.Surname,
 		Email:   createUser.Email})
 	if err != nil {
-		fmt.Println("Couldn't save key %s", id)
+		log.Print("Couldn't save key %s", id)
 	}
 }
 
@@ -78,7 +78,7 @@ func UpdateUser(c *gin.Context) {
 
 	err = helpers.SetKey(id.String(), user)
 	if err != nil {
-		fmt.Println("Couldn't save key %s", id)
+		log.Print("Couldn't save key %s", id)
 	}
 }
 
@@ -96,6 +96,6 @@ func DeleteUser(c *gin.Context) {
 
 	err = helpers.DelKey(id.String())
 	if err != nil {
-		fmt.Println("Couldn't del key %s", id)
+		log.Print("Couldn't del key %s", id)
 	}
 }
