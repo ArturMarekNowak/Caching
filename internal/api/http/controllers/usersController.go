@@ -6,98 +6,102 @@ import (
 	"caching/pkg/api/requests"
 	"caching/pkg/api/responses"
 	"caching/pkg/database/entities"
-	"github.com/gin-gonic/gin"
 	"github.com/gocql/gocql"
+	"github.com/gofiber/fiber/v3"
 	"log"
-	"net/http"
 )
 
-func GetUser(c *gin.Context) {
+func GetUser(c fiber.Ctx) error {
 
-	id, err := gocql.ParseUUID(c.Param("id"))
+	id, err := gocql.ParseUUID(c.Params("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
+		c.JSON(responses.NewHttpError("invalid path parameter"))
+		return c.SendStatus(400)
 	}
 
 	var cachedUser entities.User
 	err = helpers.GetKey(id.String(), &cachedUser)
 	if err == nil {
-		c.JSON(http.StatusOK, cachedUser)
+		c.JSON(cachedUser)
 		log.Print("Cache hit")
-		return
+		return c.SendStatus(200)
 	}
 
 	log.Print("Cache miss")
 
 	user, err := services.GetUser(id)
 	if err != nil {
-
-		c.JSON(http.StatusNotFound, gin.H{"message": "user not found"})
+		c.JSON(responses.NewHttpError("user not found"))
+		return c.SendStatus(404)
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(user)
 
 	err = helpers.SetKey(id.String(), user)
 	if err != nil {
 		log.Print("Could save key %s", id)
 	}
+	return c.SendStatus(200)
 }
 
-func CreateUser(c *gin.Context) {
+func CreateUser(c fiber.Ctx) error {
 	var createUser requests.CreateUser
-	err := c.BindJSON(&createUser)
+	err := c.Bind().Body(&createUser)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
+		c.JSON(responses.NewHttpError("invalid body"))
+		return c.SendStatus(400)
 	}
 	id := services.CreateUser(createUser)
-	c.JSON(http.StatusCreated, responses.UserCreated{Id: id})
+	c.JSON(responses.UserCreated{Id: id})
 
-	err = helpers.SetKey(id.String(), entities.User{
-		Id:      id,
-		Name:    createUser.Name,
-		Surname: createUser.Surname,
-		Email:   createUser.Email})
-	if err != nil {
-		log.Print("Couldn't save key %s", id)
-	}
+	return c.SendStatus(201)
 }
 
-func UpdateUser(c *gin.Context) {
-	id, err := gocql.ParseUUID(c.Param("id"))
+func UpdateUser(c fiber.Ctx) error {
+	id, err := gocql.ParseUUID(c.Params("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
+		c.JSON(responses.NewHttpError("invalid path parameter"))
+		return c.SendStatus(400)
 	}
 	var createUser requests.CreateUser
-	err = c.BindJSON(&createUser)
+	err = c.Bind().Body(&createUser)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
+		c.JSON(responses.NewHttpError("invalid body"))
+		return c.SendStatus(400)
 	}
 	user, err := services.UpdateUser(id, createUser)
 	if err != nil {
-
-		c.JSON(http.StatusNotFound, gin.H{"message": "user not found"})
+		c.JSON(responses.NewHttpError("user not found"))
+		return c.SendStatus(404)
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(user)
 
-	err = helpers.SetKey(id.String(), user)
-	if err != nil {
-		log.Print("Couldn't save key %s", id)
+	var cachedUser entities.User
+	if helpers.GetKey(id.String(), &cachedUser) == nil {
+		err = helpers.SetKey(id.String(), user)
+		if err != nil {
+
+			log.Print("Couldn't save key %s", id)
+		}
 	}
+
+	return c.SendStatus(200)
 }
 
-func DeleteUser(c *gin.Context) {
-	id, err := gocql.ParseUUID(c.Param("id"))
+func DeleteUser(c fiber.Ctx) error {
+	id, err := gocql.ParseUUID(c.Params("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
+		c.JSON(responses.NewHttpError("invalid path parameter"))
+		return c.SendStatus(400)
 	}
 	err = services.DeleteUser(id)
 	if err != nil {
-
-		c.JSON(http.StatusNotFound, gin.H{"message": "user not found"})
+		c.JSON(responses.NewHttpError("user not found"))
+		return c.SendStatus(404)
 	}
-	c.JSON(http.StatusNoContent, nil)
 
 	err = helpers.DelKey(id.String())
 	if err != nil {
 		log.Print("Couldn't del key %s", id)
 	}
+	return c.SendStatus(204)
 }

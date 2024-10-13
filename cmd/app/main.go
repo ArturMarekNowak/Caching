@@ -2,21 +2,21 @@ package main
 
 import (
 	"caching/internal/api/http/controllers"
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v3"
+	"log"
 )
 
-func ConfigureEndpoints(router *gin.Engine) {
-	router.POST("/users", controllers.CreateUser)
-	router.GET("/users/:id", controllers.GetUser)
-	router.PUT("/users/:id", controllers.UpdateUser)
-	router.DELETE("/users/:id", controllers.DeleteUser)
+func ConfigureEndpoints(app *fiber.App) {
+	app.Post("/users", controllers.CreateUser)
+	app.Get("/users/:id", controllers.GetUser)
+	app.Put("/users/:id", controllers.UpdateUser)
+	app.Delete("/users/:id", controllers.DeleteUser)
 }
 
 func ConfigureServer() {
-
-	router := gin.Default()
-	ConfigureEndpoints(router)
-	router.Run(":8080")
+	app := fiber.New()
+	ConfigureEndpoints(app)
+	log.Fatal(app.Listen(":8080"))
 }
 
 func main() {

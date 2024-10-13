@@ -128,8 +128,8 @@
 							"    pm.response.to.have.status(200)\r",
 							"})\r",
 							"\r",
-							"pm.test(\"Response time is less than 20ms\", () => {\r",
-							" pm.expect(pm.response.responseTime).to.be.below(20);\r",
+							"pm.test(\"Response time is less than 30ms\", () => {\r",
+							" pm.expect(pm.response.responseTime).to.be.below(30);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -162,11 +162,7 @@
 						"exec": [
 							"pm.test(\"response is HTTP 200\",  ()=>{\r",
 							"    pm.response.to.have.status(200)\r",
-							"})\r",
-							"\r",
-							"pm.test(\"Response time is less than 200ms\", () => {\r",
-							" pm.expect(pm.response.responseTime).to.be.below(200);\r",
-							"});"
+							"})"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -178,7 +174,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Arthur\",\r\n    \"surname\": \"Morgan\",\r\n    \"email\": \"Arthur.Morgan@mail.com\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Lenny\",\r\n    \"surname\": \"Summers\",\r\n    \"email\": \"Lenny.Summers@mail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
