@@ -78,7 +78,7 @@
             <mxPoint x="450" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="7h2VmWnpLdrbCDs591IP-14" value="4. If misse read from database" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=50;" vertex="1" parent="1">
+        <mxCell id="7h2VmWnpLdrbCDs591IP-14" value="4. If miss read from database" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=50;" vertex="1" parent="1">
           <mxGeometry x="375.76" y="200" width="95.49" height="30" as="geometry" />
         </mxCell>
         <mxCell id="7h2VmWnpLdrbCDs591IP-15" value="" style="curved=1;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
@@ -92,6 +92,15 @@
         </mxCell>
         <mxCell id="7h2VmWnpLdrbCDs591IP-16" value="6. Update cache" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="393.5" y="134.79000000000002" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-17" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="200" as="sourcePoint" />
+            <mxPoint x="180" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-18" value="7. Return data to user" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="200" width="75" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
