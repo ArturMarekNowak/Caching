@@ -1,7 +1,7 @@
 package main
 
 import (
-	"caching/src/controllers"
+	"caching/internal/api/http/controllers"
 	"github.com/gin-gonic/gin"
 )
 

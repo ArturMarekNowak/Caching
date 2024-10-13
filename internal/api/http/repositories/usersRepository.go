@@ -1,7 +1,8 @@
 package repositories
 
 import (
-	"caching/src/models"
+	"caching/pkg/api/requests"
+	"caching/pkg/database/entities"
 	"github.com/gocql/gocql"
 	"github.com/scylladb/gocqlx/v2"
 	"github.com/scylladb/gocqlx/v2/qb"
@@ -9,7 +10,7 @@ import (
 	"os"
 )
 
-func CreateUser(createUser models.CreateUser) gocql.UUID {
+func CreateUser(createUser requests.CreateUser) gocql.UUID {
 
 	var session = CreateSession()
 	uuid, _ := gocql.RandomUUID()
@@ -31,7 +32,7 @@ func CreateUser(createUser models.CreateUser) gocql.UUID {
 	return uuid
 }
 
-func GetUser(id gocql.UUID) (*models.User, error) {
+func GetUser(id gocql.UUID) (*entities.User, error) {
 
 	var session = CreateSession()
 	defer session.Close()
@@ -40,7 +41,7 @@ func GetUser(id gocql.UUID) (*models.User, error) {
 		"Id": gocql.UUID.String(id),
 	})
 
-	var user models.User
+	var user entities.User
 	if err := q.GetRelease(&user); err != nil {
 		log.Printf("select public.users", err)
 		return nil, err
@@ -49,7 +50,7 @@ func GetUser(id gocql.UUID) (*models.User, error) {
 	return &user, nil
 }
 
-func UpdateUser(id gocql.UUID, createUser models.CreateUser) (*models.User, error) {
+func UpdateUser(id gocql.UUID, createUser requests.CreateUser) (*entities.User, error) {
 
 	if _, err := GetUser(id); err != nil {
 		log.Printf("select public.users", err)
@@ -66,7 +67,7 @@ func UpdateUser(id gocql.UUID, createUser models.CreateUser) (*models.User, erro
 		"Id":      gocql.UUID.String(id),
 	}).Exec()
 
-	return &models.User{Id: id, Name: createUser.Name, Surname: createUser.Surname, Email: createUser.Email}, nil
+	return &entities.User{Id: id, Name: createUser.Name, Surname: createUser.Surname, Email: createUser.Email}, nil
 }
 
 func DeleteUser(id gocql.UUID) error {

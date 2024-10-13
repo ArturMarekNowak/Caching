@@ -1,9 +1,11 @@
 package controllers
 
 import (
-	"caching/src/helpers"
-	"caching/src/models"
-	"caching/src/services"
+	"caching/internal/api/http/services"
+	"caching/internal/helpers"
+	"caching/pkg/api/requests"
+	"caching/pkg/api/responses"
+	"caching/pkg/database/entities"
 	"github.com/gin-gonic/gin"
 	"github.com/gocql/gocql"
 	"log"
@@ -17,7 +19,7 @@ func GetUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
 	}
 
-	var cachedUser models.User
+	var cachedUser entities.User
 	err = helpers.GetKey(id.String(), &cachedUser)
 	if err == nil {
 		c.JSON(http.StatusOK, cachedUser)
@@ -41,15 +43,15 @@ func GetUser(c *gin.Context) {
 }
 
 func CreateUser(c *gin.Context) {
-	var createUser models.CreateUser
+	var createUser requests.CreateUser
 	err := c.BindJSON(&createUser)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
 	}
 	id := services.CreateUser(createUser)
-	c.JSON(http.StatusCreated, models.UserCreated{Id: id})
+	c.JSON(http.StatusCreated, responses.UserCreated{Id: id})
 
-	err = helpers.SetKey(id.String(), models.User{
+	err = helpers.SetKey(id.String(), entities.User{
 		Id:      id,
 		Name:    createUser.Name,
 		Surname: createUser.Surname,
@@ -64,7 +66,7 @@ func UpdateUser(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})
 	}
-	var createUser models.CreateUser
+	var createUser requests.CreateUser
 	err = c.BindJSON(&createUser)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "invalid path parameter"})

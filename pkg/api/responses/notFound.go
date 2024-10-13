@@ -1,4 +1,4 @@
-package models
+package responses
 
 type NotFound struct {
 	Message string

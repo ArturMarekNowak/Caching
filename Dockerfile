@@ -1,14 +1,9 @@
 FROM golang:1.22
 
-WORKDIR /app
-
-COPY go.mod go.sum ./
+COPY go.mod .
+COPY go.sum .
 RUN go mod download
-
-COPY . ./
-
-RUN go build -o /app.exe
-
+COPY . .
+RUN go build -v -o ./caching ./cmd/app
 EXPOSE 8080
-
-CMD ["/app.exe"]
+CMD ["./caching"]

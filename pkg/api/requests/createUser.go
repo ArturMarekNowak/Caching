@@ -1,4 +1,4 @@
-package models
+package requests
 
 type CreateUser struct {
 	Name    string
