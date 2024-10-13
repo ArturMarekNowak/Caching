@@ -14,10 +14,16 @@ This project is a simple CRUD build in Go with GET requests responses cached in 
 
 ## General info
 
+Flow of the reqeusts follows cache-aside approach:
+
+<p align="center"><img src="./docs/cacheaside.drawio.png" alt=""/>
+<p align="center">Pic.1 Flow of the requests </p>
+
+
 Project consists of four containers:
 
 <p align="center"><img src="./docs/network.drawio.png" alt=""/>
-<p align="center">Pic.1 Visualization of project run with docker compose </p>
+<p align="center">Pic.2 Visualization of project run with docker compose </p>
 
 
 ## Technologies

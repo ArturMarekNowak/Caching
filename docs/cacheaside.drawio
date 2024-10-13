@@ -1,0 +1,108 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.7.17">
+  <diagram name="Strona-1" id="zvwgiOf5Lfky3_C_92z2">
+    <mxGraphModel dx="989" dy="509" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="j--J7mZvZ6X09uwxpyXL-1" value="&lt;b&gt;&lt;i&gt;&lt;font face=&quot;Comic Sans MS&quot;&gt;Go 1.22&lt;br&gt;API&lt;/font&gt;&lt;/i&gt;&lt;/b&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;sketch=1;curveFitting=1;jiggle=2;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="290" y="150" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="j--J7mZvZ6X09uwxpyXL-2" value="&lt;font face=&quot;Comic Sans MS&quot;&gt;&lt;b&gt;&lt;i&gt;Redis&lt;/i&gt;&lt;/b&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;sketch=1;curveFitting=1;jiggle=2;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="455" y="70" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="j--J7mZvZ6X09uwxpyXL-3" value="&lt;font face=&quot;Comic Sans MS&quot;&gt;&lt;b&gt;&lt;i&gt;Cassandra&lt;/i&gt;&lt;/b&gt;&lt;/font&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;sketch=1;curveFitting=1;jiggle=2;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="460" y="240" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="xJ9EomoTuf9dD2gPHXFs-4" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://static-00.iconduck.com/assets.00/redis-plain-icon-2048x1748-fmvimw1g.png;" parent="1" vertex="1">
+          <mxGeometry x="502.13000000000005" y="134.79000000000002" width="46.87" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xJ9EomoTuf9dD2gPHXFs-10" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Cassandra_logo.svg/1280px-Cassandra_logo.svg.png;" parent="1" vertex="1">
+          <mxGeometry x="487" y="300" width="74" height="49.58" as="geometry" />
+        </mxCell>
+        <mxCell id="xJ9EomoTuf9dD2gPHXFs-12" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://miro.medium.com/v2/resize:fit:1000/0*YISbBYJg5hkJGcQd.png;" parent="1" vertex="1">
+          <mxGeometry x="325.49" y="200" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-1" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="130" y="160" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-2" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="180" y="190" as="sourcePoint" />
+            <mxPoint x="270" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-3" value="1. GET request" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="160" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-4" value="" style="curved=1;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="140" as="sourcePoint" />
+            <mxPoint x="440" y="80" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="310" y="90" />
+              <mxPoint x="380" y="70" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-5" value="2. Read from cache" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-15;" vertex="1" parent="1">
+          <mxGeometry x="294.51" y="50" width="75.49" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-6" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.625;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="j--J7mZvZ6X09uwxpyXL-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="330" as="sourcePoint" />
+            <mxPoint x="320" y="240" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="340" y="330" />
+              <mxPoint x="290" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-7" value="5. Read from database" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=15;" vertex="1" parent="1">
+          <mxGeometry x="292.26" y="319.58" width="75.49" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-8" value="" style="curved=1;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="120" as="sourcePoint" />
+            <mxPoint x="350" y="140" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="395.58" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-9" value="3. Cache hit/miss" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-15;" vertex="1" parent="1">
+          <mxGeometry x="338" y="95" width="75.49" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-13" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="190" as="sourcePoint" />
+            <mxPoint x="450" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-14" value="4. If miss read from database" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=50;" vertex="1" parent="1">
+          <mxGeometry x="375.76" y="200" width="95.49" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-15" value="" style="curved=1;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="170" as="sourcePoint" />
+            <mxPoint x="450" y="130" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="380" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-16" value="6. Update cache" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="393.5" y="134.79000000000002" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-17" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="200" as="sourcePoint" />
+            <mxPoint x="180" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7h2VmWnpLdrbCDs591IP-18" value="7. Return data to user" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="200" width="75" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
