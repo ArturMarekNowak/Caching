@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "ec678f79-9edf-4254-8c9e-abb8edf6c6fd",
+		"name": "Caching",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37057884"
+	},
+	"item": [
+		{
+			"name": "Get nonexisting user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is HTTP 404\",  ()=>{\r",
+							"    pm.response.to.have.status(404)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url}}/users/2239d8d2-7c41-4265-a683-968dc6427f45",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"users",
+						"2239d8d2-7c41-4265-a683-968dc6427f45"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is HTTP 201\",  ()=>{\r",
+							"    pm.response.to.have.status(201)\r",
+							"})\r",
+							"\r",
+							"var jsonData = JSON.parse(pm.response.text());\r",
+							"postman.setEnvironmentVariable(\"Id\", jsonData.Id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Arthur\",\r\n    \"surname\": \"Morgan\",\r\n    \"email\": \"Arthur.Morgan@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Url}}/users",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get existing user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is HTTP 200\",  ()=>{\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", () => {\r",
+							" pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url}}/users/{{Id}}",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"users",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get existing user faster",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is HTTP 200\",  ()=>{\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response time is less than 30ms\", () => {\r",
+							" pm.expect(pm.response.responseTime).to.be.below(30);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url}}/users/{{Id}}",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"users",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is HTTP 200\",  ()=>{\r",
+							"    pm.response.to.have.status(200)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Lenny\",\r\n    \"surname\": \"Summers\",\r\n    \"email\": \"Lenny.Summers@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Url}}/users/{{Id}}",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"users",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get existing user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is HTTP 200\",  ()=>{\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", () => {\r",
+							" pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url}}/users/{{Id}}",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"users",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is HTTP 204\",  ()=>{\r",
+							"    pm.response.to.have.status(204)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Url}}/users/{{Id}}",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"users",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get nonexisting user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is HTTP 404\",  ()=>{\r",
+							"    pm.response.to.have.status(404)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url}}/users/{{Id}}",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"users",
+						"{{Id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "Id",
+			"value": "2239d8d2-7c41-4265-a683-968dc6427f45",
+			"type": "string"
+		}
+	]
+}

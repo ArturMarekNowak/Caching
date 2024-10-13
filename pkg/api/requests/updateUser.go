@@ -1,4 +1,4 @@
-package models
+package requests
 
 type UpdateUser struct {
 	Name    string

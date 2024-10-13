@@ -1,12 +1,13 @@
 package services
 
 import (
-	models "caching/src/models"
-	"caching/src/repositories"
+	"caching/internal/api/http/repositories"
+	"caching/pkg/api/requests"
+	models "caching/pkg/database/entities"
 	"github.com/gocql/gocql"
 )
 
-func CreateUser(createUser models.CreateUser) gocql.UUID {
+func CreateUser(createUser requests.CreateUser) gocql.UUID {
 	return repositories.CreateUser(createUser)
 }
 
@@ -18,7 +19,7 @@ func GetUser(id gocql.UUID) (*models.User, error) {
 	return user, nil
 }
 
-func UpdateUser(id gocql.UUID, updateUser models.CreateUser) (*models.User, error) {
+func UpdateUser(id gocql.UUID, updateUser requests.CreateUser) (*models.User, error) {
 	user, err := repositories.UpdateUser(id, updateUser)
 	if err != nil {
 		return nil, err
