@@ -23,7 +23,7 @@ func CreateUser(createUser requests.CreateUser) gocql.UUID {
 	it := q.Iter()
 	defer func() {
 		if err := it.Close(); err != nil {
-			log.Printf("insert public.users", err)
+			log.Printf("insert public.users %s", err)
 		}
 	}()
 	return uuid
@@ -38,7 +38,7 @@ func GetUser(id gocql.UUID) (*entities.User, error) {
 	})
 	var user entities.User
 	if err := q.GetRelease(&user); err != nil {
-		log.Printf("select public.users", err)
+		log.Printf("select public.users %s", err)
 		return nil, err
 	}
 	return &user, nil
@@ -46,7 +46,7 @@ func GetUser(id gocql.UUID) (*entities.User, error) {
 
 func UpdateUser(id gocql.UUID, createUser requests.CreateUser) (*entities.User, error) {
 	if _, err := GetUser(id); err != nil {
-		log.Printf("select public.users", err)
+		log.Printf("select public.users %s", err)
 		return nil, err
 	}
 	var session = CreateSession()
@@ -66,7 +66,7 @@ func UpdateUser(id gocql.UUID, createUser requests.CreateUser) (*entities.User, 
 
 func DeleteUser(id gocql.UUID) error {
 	if _, err := GetUser(id); err != nil {
-		log.Printf("delete public.users", err)
+		log.Printf("delete public.users %s", err)
 		return err
 	}
 	var session = CreateSession()
@@ -85,7 +85,7 @@ func CreateSession() gocqlx.Session {
 	var cluster = gocql.NewCluster(os.Getenv("CONNECTION_STRING"))
 	session, err := gocqlx.WrapSession(cluster.CreateSession())
 	if err != nil {
-		log.Printf("unable to connect to cassandra", err)
+		log.Printf("unable to connect to cassandra %s", err)
 	}
 	return session
 }
