@@ -28,6 +28,7 @@ Project consists of four containers:
 
 ## Technologies
 * Go 1.22
+* Fiber 3.0
 * Cassandra 3.11.2
 * Redis 6.2
 * Docker
