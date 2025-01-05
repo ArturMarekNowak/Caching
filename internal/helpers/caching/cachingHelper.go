@@ -1,14 +1,13 @@
-package helpers
+package caching
 
 import (
 	"context"
 	"github.com/redis/go-redis/v9"
-	"log"
 	"os"
 	"time"
 )
 
-func CreateClient() (*redis.Client, context.Context) {
+func OpenRedisConnection() (*redis.Client, context.Context) {
 	ctx := context.Background()
 	r := redis.NewClient(&redis.Options{
 		Addr:     os.Getenv("REDIS"),
@@ -19,36 +18,36 @@ func CreateClient() (*redis.Client, context.Context) {
 	return r, ctx
 }
 
-func SetKey[S any](key string, str S) error {
+func SetKey[T any](key string, str T) error {
 	expirationDuration, err := time.ParseDuration(os.Getenv("CACHE_KEY_EXPIRATION"))
 	if err != nil {
-		log.Print("Couldn't parse CACHE_KEY_EXPIRATION: %s\n", expirationDuration)
 		return err
 	}
-	redisClient, ctx := CreateClient()
+	redisClient, ctx := OpenRedisConnection()
 	err = redisClient.Set(ctx, key, str, expirationDuration).Err()
 	if err != nil {
-		log.Print("Couldn't save key: %s, error: %s\n", key, err)
 		return err
 	}
 	return nil
 }
 
-func GetKey[S any](key string, str S) error {
-	redisClient, ctx := CreateClient()
-	err := redisClient.Get(ctx, key).Scan(str)
+func GetKey[T any](key string, value T) error {
+	redisClient, ctx := OpenRedisConnection()
+	err := redisClient.Get(ctx, key).Scan(value)
 	if err != nil {
-		log.Print("Couldn't get key: %s, error: %s\n", key, err)
 		return err
 	}
 	return nil
+}
+
+func KeyExists[T any](key string, value T) bool {
+	return GetKey(key, value) != nil
 }
 
 func DelKey(key string) error {
-	redisClient, ctx := CreateClient()
+	redisClient, ctx := OpenRedisConnection()
 	err := redisClient.Del(ctx, key).Err()
 	if err != nil {
-		log.Print("Couldn't del key: %s, error: %s\n", key, err)
 		return err
 	}
 	return nil
