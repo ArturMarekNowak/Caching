@@ -38,7 +38,6 @@ func GetUser(id gocql.UUID) (*entities.User, error) {
 	})
 	var user entities.User
 	if err := q.GetRelease(&user); err != nil {
-		log.Printf("select public.users %s", err)
 		return nil, err
 	}
 	return &user, nil
@@ -46,7 +45,6 @@ func GetUser(id gocql.UUID) (*entities.User, error) {
 
 func UpdateUser(id gocql.UUID, createUser requests.CreateUser) (*entities.User, error) {
 	if _, err := GetUser(id); err != nil {
-		log.Printf("select public.users %s", err)
 		return nil, err
 	}
 	var session = CreateSession()
